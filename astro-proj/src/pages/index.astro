@@ -1,0 +1,54 @@
+---
+import ProjectCard from '../components/ProjectCard.astro';
+
+const projects = [
+  {
+    title: "Case Study A",
+    description: "Redesigning checkout flow to cut drop-off by 30%.",
+    image: "/images/project-a-cover.jpg",
+    tags: ["UX Research", "Figma", "A/B Testing"],
+    href: "/projects/case-study-a",
+  },
+  {
+    title: "Case Study B",
+    description: "Design system built for a fintech dashboard.",
+    image: "/images/project-b-cover.jpg",
+    tags: ["Design Systems", "Component Library"],
+    href: "/projects/case-study-b",
+  },
+];
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="generator" content={Astro.generator} />
+    <title>Astro</title>
+  </head>
+  <body>
+    <h1>My astro site</h1>
+
+    <section class="project-grid">
+      {projects.map(project => (
+        <ProjectCard
+          title={project.title}
+          description={project.description}
+          image={project.image}
+          tags={project.tags}
+          href={project.href}
+        />
+      ))}
+    </section>
+  </body>
+</html>
+
+<style>
+  .project-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+    padding: 2rem;
+  }
+</style>
