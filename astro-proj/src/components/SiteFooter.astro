@@ -1,0 +1,39 @@
+---
+import Logo from "./Logo.astro";
+
+interface NavLink {
+  label: string;
+  href: string;
+}
+
+interface Props {
+  name?: string;
+  year?: string | number;
+  links?: NavLink[];
+}
+
+const {
+  name = "Sara Johnson",
+  year = 2026,
+  links = [
+    { label: "Design", href: "/design" },
+    { label: "About", href: "/about" },
+    { label: "Resume", href: "/resume" },
+    { label: "Email", href: "mailto:hello@example.com" },
+  ],
+} = Astro.props;
+---
+
+<footer class="mt-24 rounded-t-2xl bg-gradient-to-br from-neutral-600 to-neutral-500 px-6 py-10 text-white md:mt-32 md:rounded-t-3xl md:px-10 md:py-14">
+  <p class="text-sm text-white/80">All work {name}, {year}</p>
+  <div class="mt-8 flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
+    <Logo name={name} variant="light" />
+    <nav class="flex items-center gap-8 text-[15px]">
+      {links.map((link) => (
+        <a href={link.href} class="transition-opacity hover:opacity-70">
+          {link.label}
+        </a>
+      ))}
+    </nav>
+  </div>
+</footer>

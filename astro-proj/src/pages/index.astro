@@ -1,20 +1,60 @@
 ---
-import ProjectCard from '../components/ProjectCard.astro';
+import '../styles/global.css';
+import SiteHeader from "../components/SiteHeader.astro";
+import Hero from "../components/Hero.astro";
+import SectionIntro from "../components/SectionIntro.astro";
+import ProjectGrid from "../components/ProjectGrid.astro";
+import FeatureRow from "../components/FeatureRow.astro";
+import SpeakingSection from "../components/SpeakingSection.astro";
+import SiteFooter from "../components/SiteFooter.astro";
 
-const projects = [
+const transitProjects = [
+  { title: "GTFS Pulisher", href: "/work/gtfs-publisher", span: "wide" as const },
+  { title: "Timetable Evolution", href: "/work/timetable-evolution", span: "narrow" as const },
+  { title: "Timetable Evolution", href: "/work/timetable-evolution", span: "narrow" as const },
+  { title: "GTFS Pulisher", href: "/work/gtfs-publisher", span: "wide" as const },
+];
+
+const transitProjectsRepeat = [
+  { title: "GTFS Pulisher", href: "/work/gtfs-publisher", span: "wide" as const },
+  { title: "Timetable Evolution", href: "/work/timetable-evolution", span: "narrow" as const },
+];
+
+const neighborhoodFeatures = [
   {
-    title: "Case Study A",
-    description: "Redesigning checkout flow to cut drop-off by 30%.",
-    image: "/images/project-a-cover.jpg",
-    tags: ["UX Research", "Figma", "A/B Testing"],
-    href: "/projects/case-study-a",
+    title: "The neighborhood app",
+    description: "Led the research and design of an integrated real estate evaluation and comparison tool",
   },
   {
-    title: "Case Study B",
-    description: "Design system built for a fintech dashboard.",
-    image: "/images/project-b-cover.jpg",
-    tags: ["Design Systems", "Component Library"],
-    href: "/projects/case-study-b",
+    title: "The neighborhood app",
+    description: "Created localized landing page for a crypto client and designed a learning game for an education webapp",
+  },
+  {
+    title: "The neighborhood app",
+    description: "Led the research and design of an integrated real estate evaluation and comparison tool",
+  },
+];
+
+const talks = [
+  {
+    label: "TALK",
+    title: "Designing for Public Transit Planning",
+    meta: "Service Design Drinks Berlin & Berlin Product Designers Meetup \u00b7 November 2025",
+  },
+  {
+    label: "PRESENTATION",
+    title: "Design Lessons from Public Transit Planners",
+    meta: "Service Design Jam Berlin \u00b7 November 2024",
+  },
+  {
+    label: "PRESENTATION",
+    title: "Design Lessons from Public Transit Planners",
+    meta: "Service Design Jam Berlin \u00b7 November 2024",
+  },
+  {
+    label: "PRESENTATION",
+    title: "Design Lessons from Public Transit Planners",
+    meta: "Service Design Jam Berlin \u00b7 November 2024",
   },
 ];
 ---
@@ -22,33 +62,34 @@ const projects = [
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="viewport" content="width=device-width" />
-    <meta name="generator" content={Astro.generator} />
-    <title>Astro</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Sara Johnson &mdash; UX Designer</title>
   </head>
-  <body>
-    <h1>My astro site</h1>
+  <body class="bg-white">
+    <SiteHeader />
 
-    <section class="project-grid">
-      {projects.map(project => (
-        <ProjectCard
-          title={project.title}
-          description={project.description}
-          image={project.image}
-          tags={project.tags}
-          href={project.href}
+    <main>
+      <Hero />
+
+      <SectionIntro
+        title="Industry-leading public transit planning suite"
+        subtitle="Design, Research, and Strategy"
+      />
+      <ProjectGrid projects={transitProjects} />
+
+      <div class="mt-20 md:mt-28">
+        <SectionIntro
+          title="Industry-leading public transit planning suite"
+          subtitle="Design, Research, and Strategy"
         />
-      ))}
-    </section>
+        <ProjectGrid projects={transitProjectsRepeat} />
+      </div>
+
+      <FeatureRow features={neighborhoodFeatures} />
+
+      <SpeakingSection talks={talks} />
+    </main>
+
+    <SiteFooter />
   </body>
 </html>
-
-<style>
-  .project-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 1.5rem;
-    padding: 2rem;
-  }
-</style>

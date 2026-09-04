@@ -1,0 +1,28 @@
+---
+interface Props {
+  name?: string;
+  href?: string;
+  /** "dark" = for light backgrounds, "light" = for dark/gradient backgrounds */
+  variant?: "dark" | "light";
+}
+
+const { name = "Sara Johnson", href = "/", variant = "dark" } = Astro.props;
+const isDark = variant === "dark";
+---
+
+<a href={href} class="flex items-center gap-3">
+  <span
+    class:list={[
+      "grid h-8 w-8 place-items-center rounded-full overflow-hidden shrink-0",
+      isDark ? "bg-neutral-900 text-white" : "bg-white/15 text-white",
+    ]}
+  >
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+      <circle cx="12" cy="8.5" r="3.2"></circle>
+      <path d="M5 20c0-3.6 3.1-6.2 7-6.2s7 2.6 7 6.2"></path>
+    </svg>
+  </span>
+  <span class:list={["text-[17px] font-semibold tracking-tight", isDark ? "text-neutral-900" : "text-white"]}>
+    {name}
+  </span>
+</a>
