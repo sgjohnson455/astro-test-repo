@@ -1,5 +1,5 @@
 ---
-import '../styles/global.css';
+import "../styles/global.css";
 import SiteHeader from "../components/SiteHeader.astro";
 import Hero from "../components/Hero.astro";
 import SectionIntro from "../components/SectionIntro.astro";
@@ -8,30 +8,61 @@ import FeatureRow from "../components/FeatureRow.astro";
 import SpeakingSection from "../components/SpeakingSection.astro";
 import SiteFooter from "../components/SiteFooter.astro";
 
-const transitProjects = [
-  { title: "GTFS Pulisher", href: "/work/gtfs-publisher", span: "wide" as const },
-  { title: "Timetable Evolution", href: "/work/timetable-evolution", span: "narrow" as const },
-  { title: "Timetable Evolution", href: "/work/timetable-evolution", span: "narrow" as const },
-  { title: "GTFS Pulisher", href: "/work/gtfs-publisher", span: "wide" as const },
+const singleProjects = [
+  {
+    title: "KOBAN",
+    href: "/design/koban",
+    span: "wide" as const,
+    bgColor: "#E6F0CC",
+    image: "/koban/cover.png",
+  },
+  {
+    title: "Timetable Evolution",
+    href: "/work/timetable-evolution",
+    span: "narrow" as const,
+    bgColor: "#1E3A8A",
+  },
+  {
+    title: "KOBAN",
+    href: "/design/KOBAN",
+    span: "narrow" as const,
+    bgColor: "#B45309",
+  },
+  {
+    title: "GTFS Pulisher",
+    href: "/work/gtfs-publisher",
+    span: "wide" as const,
+  },
 ];
 
 const transitProjectsRepeat = [
-  { title: "GTFS Pulisher", href: "/work/gtfs-publisher", span: "wide" as const },
-  { title: "Timetable Evolution", href: "/work/timetable-evolution", span: "narrow" as const },
+  {
+    title: "GTFS Pulisher",
+    href: "/work/gtfs-publisher",
+    span: "wide" as const,
+  },
+  {
+    title: "Timetable Evolution",
+    href: "/work/timetable-evolution",
+    span: "narrow" as const,
+  },
 ];
 
 const neighborhoodFeatures = [
   {
     title: "The neighborhood app",
-    description: "Led the research and design of an integrated real estate evaluation and comparison tool",
+    description:
+      "Led the research and design of an integrated real estate evaluation and comparison tool",
   },
   {
     title: "The neighborhood app",
-    description: "Created localized landing page for a crypto client and designed a learning game for an education webapp",
+    description:
+      "Created localized landing page for a crypto client and designed a learning game for an education webapp",
   },
   {
     title: "The neighborhood app",
-    description: "Led the research and design of an integrated real estate evaluation and comparison tool",
+    description:
+      "Led the research and design of an integrated real estate evaluation and comparison tool",
   },
 ];
 
@@ -72,10 +103,10 @@ const talks = [
       <Hero />
 
       <SectionIntro
-        title="Industry-leading public transit planning suite"
+        title="Product Design"
         subtitle="Design, Research, and Strategy"
       />
-      <ProjectGrid projects={transitProjects} />
+      <ProjectGrid projects={singleProjects} />
 
       <div class="mt-20 md:mt-28">
         <SectionIntro

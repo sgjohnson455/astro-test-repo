@@ -1,0 +1,70 @@
+---
+import "../styles/global.css";
+import SiteHeader from "../components/SiteHeader.astro";
+import ProjectTitle from "../components/blocks/ProjectTitle.astro";
+
+interface Props {
+    headerImage: string;
+    gradientFrom?: string;
+}
+
+const { headerImage, gradientFrom = "#f8d7da" } = Astro.props;
+---
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+    </head>
+    <body>
+        <header class="fixed top-0 left-0 w-full z-50 bg-white">
+            <SiteHeader />
+        </header>
+        <img src={headerImage} alt="" class="w-screen" />
+
+        <div
+            class="pt-20"
+            style={`background: linear-gradient(to bottom, ${gradientFrom}, #ffffff);`}
+        >
+            <ProjectTitle
+                icon="/koban/leaf-icon.svg"
+                title="KOBAN | Design for X"
+            />
+        </div>
+
+        <div class="px-6 py-6">
+            <slot />
+        </div>
+    </body>
+</html>
+
+<style>
+    :global(p) {
+        font-family: "IBM Plex Sans", sans-serif;
+        padding: 2px;
+    }
+
+    :global(h1) {
+        font-family: "Poppins", sans-serif;
+        font-weight: 700;
+        font-size: 3.22rem;
+    }
+
+    :global(h2) {
+        font-family: "Poppins", sans-serif;
+        font-weight: 600;
+        font-size: 1.38rem;
+    }
+
+    :global(h3) {
+        font-family: "Poppins", sans-serif;
+        font-weight: 600;
+        font-size: 1.5rem;
+    }
+
+    :global(h4) {
+        font-family: "Poppins", sans-serif;
+        font-weight: 500;
+        font-size: 1.25rem;
+    }
+</style>

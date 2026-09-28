@@ -1,0 +1,115 @@
+---
+// src/components/ExpandableImage.astro
+interface Props {
+    src: string;
+    alt: string;
+}
+
+const { src, alt } = Astro.props;
+const id = crypto.randomUUID();
+---
+
+<img
+    src={src}
+    alt={alt}
+    class="w-full cursor-pointer"
+    data-expand-trigger={id}
+/>
+
+<div
+    class="fixed inset-0 z-[100] hidden items-center justify-center bg-black/40 px-6"
+    data-expand-overlay={id}
+>
+    <div class="absolute top-6 right-6 flex items-center gap-3 z-10">
+        <button
+            class="text-white text-2xl leading-none w-10 h-10 flex items-center justify-center rounded-full bg-black/30 hover:bg-black/50"
+            aria-label="Zoom in"
+            data-expand-zoomin={id}
+        >
+            +
+        </button>
+        <button
+            class="text-white text-2xl leading-none w-10 h-10 flex items-center justify-center rounded-full bg-black/30 hover:bg-black/50"
+            aria-label="Zoom out"
+            data-expand-zoomout={id}
+        >
+            &minus;
+        </button>
+        <button
+            class="text-white text-3xl leading-none w-10 h-10 flex items-center justify-center rounded-full bg-black/30 hover:bg-black/50"
+            aria-label="Close"
+            data-expand-close={id}
+        >
+            &times;
+        </button>
+    </div>
+    <div class="overflow-auto max-w-full max-h-full">
+        <img
+            src={src}
+            alt={alt}
+            class="mx-auto transition-transform duration-150 ease-out"
+            data-expand-image={id}
+        />
+    </div>
+</div>
+
+<script define:vars={{ id }}>
+    const trigger = document.querySelector(`[data-expand-trigger="${id}"]`);
+    const overlay = document.querySelector(`[data-expand-overlay="${id}"]`);
+    const closeBtn = document.querySelector(`[data-expand-close="${id}"]`);
+    const zoomInBtn = document.querySelector(`[data-expand-zoomin="${id}"]`);
+    const zoomOutBtn = document.querySelector(`[data-expand-zoomout="${id}"]`);
+    const image = document.querySelector(`[data-expand-image="${id}"]`);
+
+    let scale = 1;
+    const minScale = 0.5;
+    const maxScale = 3;
+    const step = 0.25;
+
+    function applyScale() {
+        image.style.transform = `scale(${scale})`;
+    }
+
+    function resetScale() {
+        scale = 1;
+        applyScale();
+    }
+
+    function openOverlay() {
+        overlay.classList.remove("hidden");
+        overlay.classList.add("flex");
+        document.body.style.overflow = "hidden";
+    }
+
+    function closeOverlay() {
+        overlay.classList.add("hidden");
+        overlay.classList.remove("flex");
+        document.body.style.overflow = "";
+        resetScale();
+    }
+
+    trigger.addEventListener("click", openOverlay);
+    closeBtn.addEventListener("click", closeOverlay);
+
+    zoomInBtn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        scale = Math.min(scale + step, maxScale);
+        applyScale();
+    });
+
+    zoomOutBtn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        scale = Math.max(scale - step, minScale);
+        applyScale();
+    });
+
+    overlay.addEventListener("click", (e) => {
+        if (e.target === overlay) {
+            closeOverlay();
+        }
+    });
+
+    image.addEventListener("click", (e) => {
+        e.stopPropagation();
+    });
+</script>

@@ -1,0 +1,48 @@
+---
+import ProjectBody from "../../layouts/ProjectBody.astro";
+import TableHeaders from "../../components/blocks/TableHeaders.astro";
+import Table from "../../components/blocks/Table.astro";
+import Quote from "../../components/blocks/Quote.astro";
+import ExpandableImage from "../../components/blocks/ExpandableImage.astro";
+
+const headers = ["Name", "Role", "Year"];
+const rows = [
+  ["Alex", "Designer", 2024],
+  ["Sam", "Engineer", 2025],
+  ["Jordan", "PM", 2023],
+];
+
+const projectInfo = [
+  { label: "Title", value: "Design for X Challenge - KOBAN" },
+  { label: "My role", value: "Lead Product Designer" },
+  { label: "Team", value: "Team of 3" },
+  { label: "Timeline", value: "April 2025 (36-hour sprint)" },
+  { label: "Project Type", value: "Competition Submission" },
+  { label: "Tools Used", value: "Figma, Figjam, Canva, Procreate (Sketching)" },
+];
+---
+
+<ProjectBody headerImage="koban/cover.png">
+  <h2>KOBAN</h2>
+
+  <p>
+    In 2025, Design for X hosted a design challenge in partnership with Mondelēz
+    International, tasking student teams with identifying an emerging food trend
+    and translating it into a new snack concept within Mondelēz's brand universe
+    → all in just 36 hours.
+  </p>
+  <h2>Starting Point</h2>
+  <p>...</p>
+  <Quote label="The Official Prompt:">
+    Identify a current trend in the food industry and design a concept that
+    brings it to life within the Mondelez International brand universe.
+  </Quote>
+
+  <ExpandableImage
+    src="/koban/doublediamond.avif"
+    alt="Early sketches of the snack concept"
+  />
+  <Table rows={projectInfo} />
+
+  <p>The Official Prompt:</p>
+</ProjectBody>

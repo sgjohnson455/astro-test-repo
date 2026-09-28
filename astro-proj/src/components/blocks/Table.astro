@@ -1,0 +1,25 @@
+---
+// src/components/InfoTable.astro
+interface Props {
+    rows: { label: string; value: string }[];
+}
+
+const { rows } = Astro.props;
+---
+
+<div class="pt-0 pb-4">
+    <div
+        class="w-full border-[0.5px] border-gray-200 rounded-sm overflow-hidden"
+    >
+        {
+            rows.map((row) => (
+                <div class="grid grid-cols-[2fr_3fr] border-b border-gray-200 last:border-b-0">
+                    <div class="bg-gray-100 px-5 py-2 text-gray-800 font-medium">
+                        {row.label}
+                    </div>
+                    <div class="px-5 py-2 text-black">{row.value}</div>
+                </div>
+            ))
+        }
+    </div>
+</div>

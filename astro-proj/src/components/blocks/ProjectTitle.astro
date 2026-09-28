@@ -1,0 +1,16 @@
+---
+// src/components/ProjectTitle.astro
+interface Props {
+    icon: string;
+    title: string;
+}
+
+const { icon, title } = Astro.props;
+---
+
+<div class="flex flex-col items-center text-center py-10 px-4">
+    <img src={icon} alt="" class="w-16 h-16 mb-6" />
+    <h1 class="font-poppins font-bold text-4xl sm:text-5xl leading-12 max-w-md">
+        {title}
+    </h1>
+</div>

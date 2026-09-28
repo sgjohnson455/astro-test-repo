@@ -1,0 +1,15 @@
+---
+// src/components/Quote.astro
+interface Props {
+    label?: string;
+}
+
+const { label } = Astro.props;
+---
+
+{label && <p class="font-poppins font-semibold text-gray-900 mb-2">{label}</p>}
+<blockquote
+    class="font-poppins border-l-4 border-gray-900 leading-relaxed pl-4 text-black"
+>
+    <slot />
+</blockquote>

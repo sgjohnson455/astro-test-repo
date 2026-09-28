@@ -4,32 +4,110 @@ interface Props {
   href?: string;
   image?: string;
   class?: string;
+  bgColor?: string; // any valid CSS color: hex, rgb(), named color, etc.
 }
 
-const { title, href = "#", image, class: className = "" } = Astro.props;
+const {
+  title,
+  href = "#",
+  image,
+  class: className = "",
+  bgColor = "#000000",
+} = Astro.props;
+
+// --- WCAG relative luminance + contrast ---
+// Converts a CSS color to [r,g,b] (0-255). Only needs to handle hex here;
+// extend this if you plan to pass rgb()/hsl() strings too.
+function hexToRgb(hex: string): [number, number, number] {
+  let clean = hex.replace("#", "");
+  if (clean.length === 3) {
+    clean = clean
+      .split("")
+      .map((c) => c + c)
+      .join("");
+  }
+  const num = parseInt(clean, 16);
+  return [(num >> 16) & 255, (num >> 8) & 255, num & 255];
+}
+
+// WCAG relative luminance formula
+function relativeLuminance([r, g, b]: [number, number, number]): number {
+  const [rs, gs, bs] = [r, g, b].map((c) => {
+    const channel = c / 255;
+    return channel <= 0.03928
+      ? channel / 12.92
+      : Math.pow((channel + 0.055) / 1.055, 2.4);
+  });
+  return 0.2126 * rs + 0.7152 * gs + 0.0722 * bs;
+}
+
+// Contrast ratio between background and white/black text, per WCAG formula:
+// (L1 + 0.05) / (L2 + 0.05), where L1 is the lighter of the two
+function contrastRatio(l1: number, l2: number): number {
+  const lighter = Math.max(l1, l2);
+  const darker = Math.min(l1, l2);
+  return (lighter + 0.05) / (darker + 0.05);
+}
+
+function pickTextColor(bg: string): "white" | "black" {
+  const bgLuminance = relativeLuminance(hexToRgb(bg));
+  const whiteLuminance = 1; // white = full luminance
+  const blackLuminance = 0; // black = zero luminance
+
+  const contrastWithWhite = contrastRatio(bgLuminance, whiteLuminance);
+  const contrastWithBlack = contrastRatio(bgLuminance, blackLuminance);
+
+  // Pick whichever gives the higher contrast ratio against this background
+  return contrastWithWhite >= contrastWithBlack ? "white" : "black";
+}
+
+const textColor = pickTextColor(bgColor);
+const textColorClass = textColor === "white" ? "text-white" : "text-black";
 ---
 
 <a
   href={href}
+  style={{ backgroundColor: bgColor }}
   class:list={[
-    "group relative block aspect-[4/5] overflow-hidden rounded-2xl bg-black",
+    "group relative block h-full min-h-[300px] overflow-hidden rounded-2xl",
     className,
   ]}
 >
-  {image && (
-    <img
-      src={image}
-      alt=""
-      class="absolute inset-0 h-full w-full object-cover opacity-80 transition-opacity group-hover:opacity-95"
-    />
-  )}
+  {
+    image && (
+      <div class="absolute inset-0 flex items-center justify-center px-8 pt-16">
+        <img
+          src={image}
+          alt=""
+          class="h-full w-full object-contain transition-transform duration-300 group-hover:scale-105"
+        />
+      </div>
+    )
+  }
   <div class="relative z-10 flex h-full flex-col justify-start p-6 md:p-7">
-    <h3 class="text-lg font-bold text-white md:text-xl">{title}</h3>
+    <h3
+      class:list={[
+        "text-lg font-bold transition-all duration-300 group-hover:text-xl md:text-xl md:group-hover:text-2xl",
+        textColorClass,
+      ]}
+    >
+      {title}
+    </h3>
     <span
-      class="mt-2 inline-block w-fit text-white transition-transform group-hover:translate-x-1"
+      class:list={[
+        "mt-2 inline-block w-fit opacity-0 transition-all duration-300 group-hover:translate-x-1 group-hover:opacity-100",
+        textColorClass,
+      ]}
       aria-hidden="true"
     >
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <svg
+        width="20"
+        height="20"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+      >
         <path d="M5 12h14M13 6l6 6-6 6"></path>
       </svg>
     </span>
